@@ -27,6 +27,7 @@ class queueNode:
     def __init__(self, pt: Point, dist: int):
         self.pt = pt  # The cordinates of the cell
         self.dist = dist  # Cell's distance from the source
+        print("Transverse %s is %s" % (pt.x, pt.y))
 
 
 # Check whether given cell(row,col)
@@ -37,8 +38,8 @@ def isValid(row: int, col: int):
 
 # These arrays are used to get row and column
 # numbers of 4 neighbours of a given cell
-rowNum = [-1, 0, 0, 1]
-colNum = [0, -1, 1, 0]
+rowNum = [-1, 0, 0, 1,-1, 1,-1, 1]
+colNum = [0, -1, 1, 0,-1, 1, 1, -1]
 
 
 # Function to find the shortest path between
