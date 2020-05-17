@@ -11,7 +11,7 @@ ROW = 202 #x
 COL = 229 #y
 
 class Node():
-    """A node class for A* Pathfinding"""
+    #node class keeping its score,parent and position for A* Pathfinding
 
     def __init__(self, parent=None, position=None):
         self.parent = parent
@@ -24,6 +24,7 @@ class Node():
     def __eq__(self, other):
         return self.position == other.position
 
+ #Heuristic used is the Manhattan distance with a tie breaker for equally scored nodes
 def heuristic(xA,yA,xB,yB):
   dx = abs(xA-xB)
   dy = abs(yA-yB)
@@ -126,10 +127,12 @@ def astar(grid, start, end ):
                     continue
 
             # Create the f, g, and h values
-            # DISTANCE IS THE PROBLEM HERE
+            
             child.g = current_node.g + 1
             h = heuristic(current_node.position[0],current_node.position[1],end_node.position[0],end_node.position[1])
-            p= 1.0 + (1/h)
+            
+            #tie breaker for equal scoring nodes
+            p= 1.0 + (1/h) 
             child.h = h*p
             child.f = child.g + child.h
 
