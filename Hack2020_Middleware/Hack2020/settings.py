@@ -129,7 +129,7 @@ USE_L10N = True
 
 USE_TZ = True
 
-GOOGLE_MAPS_API_KEY = 'AIzaSyBiiyu-AQ2FEKUeK9SeQz3gB1Qddaa-EFo'
+GOOGLE_MAPS_API_KEY = ''
 
 
 # Static files (CSS, JavaScript, Images)
