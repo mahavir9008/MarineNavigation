@@ -17,7 +17,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     //set view of initial map
     leafmap.setView([38,26.5],8)
-
+//
     // add onmapclick event
     leafmap.on('click', onMapClick);
 
