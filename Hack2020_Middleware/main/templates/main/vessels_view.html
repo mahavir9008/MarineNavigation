@@ -1,0 +1,7 @@
+{% extends 'main/home_view.html' %} {%if vessels %} {%block content%} {% for vessel in vessels %}
+
+<h1>{{vessel.vesselName }}</h1>
+<ul class='list_group'>
+
+</ul>
+{%endfor%} {%endblock%} {% else %} {{msg}} {%endif%}

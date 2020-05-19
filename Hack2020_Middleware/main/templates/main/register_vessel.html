@@ -1,0 +1,47 @@
+{% extends 'main/home_view.html' %} {{ title }} {% block content %}
+<form action="{% url 'register_vessel' %}" method='post' class="was-validated">{% csrf_token %}
+    <div class="row">
+        <div class='col'>
+            <label for="vName">Vessel Name:</label>
+            <input type="text" class="form-control" id="vName" placeholder="Enter your vessel's name" name="vName" required>
+            <div class="valid-feedback">Valid.</div>
+            <div class="invalid-feedback">The vessel's registered name.</div>
+        </div>
+        <div class='col'>
+            <label for="vlength">Vessel Length:</label>
+            <input type="text" class="form-control" id="vlength" placeholder="Enter your vessel's length" name="vlength" required>
+            <div class="valid-feedback">Valid.</div>
+            <div class="invalid-feedback">The vessel's maximum length in meters.</div>
+        </div>
+        <div class='col'>
+            <label for="vbreadth">Vessel Breadth:</label>
+            <input type="text" class="form-control" id="vbreadth" placeholder="Enter your vessel's breadth" name="vbreadth" required>
+            <div class="valid-feedback">Valid.</div>
+            <div class="invalid-feedback">The vessel's maximum breadth (abeam distance) in meters.</div>
+        </div>
+    </div>
+    <div class='row'>
+        <div class='col-3'>
+            <label for="vMaxDraft">Vessel Max Draft:</label>
+            <input type="text" class="form-control" id="vMaxDraft" placeholder="Enter your vessel's maximum draft" name="vMaxDraft" required>
+            <div class="valid-feedback">Valid.</div>
+            <div class="invalid-feedback"> The vessel's maximum draft condition in meters.</div>
+        </div>
+        <div class='col-3'>
+            <label for="vSpeed">Vessel Speed:</label>
+            <input type="text" class="form-control" id="vSpeed" placeholder="Enter your vessel's cruising speed" name="vSpeed" required>
+            <div class="valid-feedback">Valid.</div>
+            <div class="invalid-feedback">The vessel's cruising speed in knots. Note: Speed can be adjusted later </div>
+        </div>
+
+    </div>
+    <div class="form-group form-check">
+        <label class="form-check-label">
+        <input class="form-check-input" type="checkbox" name="remember" required> I agree on usage terms & conditions.
+        <div class="valid-feedback">Valid.</div>
+        <div class="invalid-feedback">Check this checkbox to continue.</div>
+      </label>
+    </div>
+    <button type='submit' class='btn btn-primary'>Submit</button>
+</form>
+{% endblock %}
