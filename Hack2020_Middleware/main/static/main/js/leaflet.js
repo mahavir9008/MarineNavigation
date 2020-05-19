@@ -28,6 +28,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 });
 
 //output list of drawn wps
+// sxolio12
 const markedPath = []
 leafmap.on('pm:drawstart', ({ workingLayer }) => {
   workingLayer.on('pm:vertexadded', e => {
