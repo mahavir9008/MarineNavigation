@@ -1,5 +1,20 @@
 //initialize leaflet map
+
 const leafmap = L.map('mapid')
+
+//Initialize ship marker
+const shipIconB = L.icon({
+    iconUrl: 'static/main/imgs/blue_ship.jpeg',
+    iconSize: [22,26],
+    iconAnchor:[11,13],
+    popupAnchor: [-2,5]
+})
+const shipIconG = L.icon({
+    iconUrl: 'static/main/imgs/green_ship.jpeg',
+    iconSize: [22,26],
+    iconAnchor:[11,13],
+    popupAnchor: [-2,5]
+})
 
 
 //Run on page load
@@ -17,7 +32,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     //set view of initial map
     leafmap.setView([38,26.5],8)
-//
+
     // add onmapclick event
     leafmap.on('click', onMapClick);
 
@@ -28,7 +43,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 });
 
 //output list of drawn wps
-// sxolio12
+
 const markedPath = []
 leafmap.on('pm:drawstart', ({ workingLayer }) => {
   workingLayer.on('pm:vertexadded', e => {
@@ -57,6 +72,7 @@ btn.onclick =  function () {
     var long = parseFloat(document.getElementById('lng').value)
 
     var marker = L.marker([lat,long], {
+            icon: shipIconB,  // or ShipIconG for green
 	 	    draggable: true,
 	 	    title: "Resource location",
 	 	    alt: "Resource Location",
