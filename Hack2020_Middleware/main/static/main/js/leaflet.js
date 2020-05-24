@@ -1,69 +1,221 @@
-//initialize leaflet map
-const leafmap = L.map('mapid')
+angular.module('myApp', ['ngMaterial']).config(function($interpolateProvider) {
+  $interpolateProvider.startSymbol('{[{');
+  $interpolateProvider.endSymbol('}]}');
+}).controller('AppCtrl', ['$scope', '$http', function($scope, $http) {
 
+  var mymap = L.map('mapid').setView([38,26.5], 13);
 
-//Run on page load
-window.addEventListener('DOMContentLoaded', (event) => {
+  L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+    // maxZoom: 18,
+    id: 'mapbox/streets-v11',
+    // tileSize: 512,
+    // zoomOffset: -1,
+    accessToken: 'pk.eyJ1IjoibWlrZXNvbG93IiwiYSI6ImNrYTExZzJkNDA3Zngzb3A2YWtrMXAwa2YifQ.gtV85gxNT53Gmw7Buy6Thw'
+  }).addTo(mymap);
 
-    //initialize tileLayer provider
-    L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
-                attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-                maxZoom: 18,
-                id: 'mapbox/streets-v11',
-                tileSize: 512,
-                zoomOffset: -1,
-                accessToken: 'pk.eyJ1IjoibWlrZXNvbG93IiwiYSI6ImNrYTExZzJkNDA3Zngzb3A2YWtrMXAwa2YifQ.gtV85gxNT53Gmw7Buy6Thw'
-            }).addTo(leafmap);
+  // mymap.on('click', onMapClick);
+  //
+  // var popup = L.popup();
+  //
+  // function onMapClick(e) {
+  //   popup
+  //     .setLatLng(e.latlng)
+  //     .setContent('Coordinates: ' + e.latlng.toString())
+  //     .openOn(mymap)
+  // };
 
-    //set view of initial map
-    leafmap.setView([38,26.5],8)
+  $scope.setCoord = function(lat, long) {
+    console.log(lat, long);
+    var marker = L.marker([lat, long], {
+      draggable: true,
+      title: "Resource location",
+      alt: "Resource Location",
+      riseOnHover: true
+    }).addTo(mymap)
+    mymap.flyTo([lat, long], 15)
+  };
+
+  function getControlHrmlContent() {
+    return '<div id="controlbox" >' +
+      '<div id="boxcontainer" class="searchbox searchbox-shadow" >' +
+      '<div class="searchbox-menu-container">' +
+      '<button aria-label="Menu" id="searchbox-menubutton" class="searchbox-menubutton"></button>' +
+      '<span aria-hidden="true" style="display:none">Menu</span>' +
+      '</div>' +
+      '<div><input id="searchboxinput" type="text" style="position: relative;"/></div>' +
+      '<div class="searchbox-searchbutton-container">' +
+      '<button aria-label="search" id="searchbox-searchbutton" class="searchbox-searchbutton"></button>' +
+      '<span aria-hidden="true" style="display:none;">search</span>' +
+      '</div>' +
+      '</div>' +
+      '</div>' +
+      '<div class="panel"> <div class="panel-header">' +
+      '<div class="panel-header-container">' +
+      '<span class="panel-header-title"></span>' +
+      '<button aria-label="Menu" id="panelbutton" class="panel-close-button"></button>' +
+      '</div>' +
+      '</div>' +
+      '<div class="panel-content">' +
+      '</div>' +
+      '</div>'
+  }
+
+  function generateHtmlContent(a) {
+    for (var b = '<ul class="panel-list">', d = 0; d < a.Items.length; d++) {
+      var c = a.Items[d],
+        b = b + '<li class="panel-list-item"><div>';
+      "link" == c.type ? (b += '<span class="panel-list-item-icon ' + c.icon + '" ></span>', b += '<a href="' + c.href + '">' + c.name + "</a>") : "button" == c.type && (b += '<span class="panel-list-item-icon ' + c.icon + '" ></span>', b += '<button onclick="' + c.onclick + '">' + c.name + "</button>");
+      b += "</li></div>"
+    }
+    return b + "</ul>"
+  }
+
+  function createSearchboxControl() {
+    return L.Control.extend({
+      _sideBarHeaderTitle: "Sample Title",
+      _sideBarMenuItems: {
+        Items: [{
+          type: "link",
+          name: "Link 1 (github.com)",
+          href: "http://github.com",
+          icon: "icon-local-carwash"
+        }, {
+          type: "link",
+          name: "Link 2 (google.com)",
+          href: "http://google.com",
+          icon: "icon-cloudy"
+        }, {
+          type: "button",
+          name: "Button 1",
+          onclick: "alert('button 1 clicked !')",
+          icon: "icon-potrait"
+        }, {
+          type: "button",
+          name: "Button 2",
+          onclick: "alert('button 2 clicked !')",
+          icon: "icon-local-dining"
+        }, {
+          type: "link",
+          name: "Link 3 (stackoverflow.com)",
+          href: "http://stackoverflow.com",
+          icon: "icon-bike"
+        }],
+        _searchfunctionCallBack: function(a) {
+          alert("calling the default search call back")
+        }
+      },
+      options: {
+        position: "topright"
+      },
+      initialize: function(a) {
+        L.Util.setOptions(this, a);
+        a.sidebarTitleText && (this._sideBarHeaderTitle = a.sidebarTitleText);
+        a.sidebarMenuItems && (this._sideBarMenuItems = a.sidebarMenuItems)
+      },
+      onAdd: function(a) {
+        a = L.DomUtil.create("div");
+        a.id = "controlcontainer";
+        var b = this._sideBarHeaderTitle,
+          d = this._sideBarMenuItems,
+          c = this._searchfunctionCallBack;
+        $(a).html(getControlHrmlContent());
+        setTimeout(function() {
+          $("#searchbox-searchbutton").click(function() {
+            var a = $("#searchboxinput").val();
+            c(a)
+          });
+          $("#searchbox-menubutton").click(function() {
+            $(".panel").toggle("slide", {
+              direction: "left"
+            }, 500)
+          });
+          $(".panel-close-button").click(function() {
+            $(".panel").toggle("slide", {
+              direction: "left"
+            }, 500)
+          });
+          $(".panel-header-title").text(b);
+          var a = generateHtmlContent(d);
+          $(".panel-content").html(a)
+        }, 1);
+        L.DomEvent.disableClickPropagation(a);
+        return a
+      }
+    })
+  };
+
+}]);
 //
-    // add onmapclick event
-    leafmap.on('click', onMapClick);
-
-    //add sidebar tool
-    leafmap.pm.addControls({
-    position: 'topleft',
-    drawCircle: false,
-});
-
-//output list of drawn wps
-// sxolio12
-const markedPath = []
-leafmap.on('pm:drawstart', ({ workingLayer }) => {
-  workingLayer.on('pm:vertexadded', e => {
-      markedPath.push(e.latlng)
-  });
-});
-
-})
-
-
-//PopUp function
-var popup = L.popup();
-function onMapClick(e) {
-        popup
-            .setLatLng(e.latlng)
-            .setContent('Coordinates: '+e.latlng.toString())
-            .openOn(leafmap)
-
-
-}
-
-//search and mark function
-const btn = document.querySelector('button')
-btn.onclick =  function () {
-    var lat = parseFloat(document.getElementById('lat').value)
-    var long = parseFloat(document.getElementById('lng').value)
-
-    var marker = L.marker([lat,long], {
-	 	    draggable: true,
-	 	    title: "Resource location",
-	 	    alt: "Resource Location",
-	 	    riseOnHover: true
-    }).addTo(leafmap)
-     leafmap.flyTo([lat,long],15)
-}
+//
+//
+//
+// //initialize leaflet map
+// const leafmap = L.map('mapid')
+//
+//
+// //Run on page load
+// window.addEventListener('DOMContentLoaded', (event) => {
+//
+//     //initialize tileLayer provider
+//     L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+//                 attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+//                 maxZoom: 18,
+//                 id: 'mapbox/streets-v11',
+//                 tileSize: 512,
+//                 zoomOffset: -1,
+//                 accessToken: 'pk.eyJ1IjoibWlrZXNvbG93IiwiYSI6ImNrYTExZzJkNDA3Zngzb3A2YWtrMXAwa2YifQ.gtV85gxNT53Gmw7Buy6Thw'
+//             }).addTo(leafmap);
+//
+//     //set view of initial map
+//     leafmap.setView([38,26.5],8)
+// //
+//     // add onmapclick event
+//     leafmap.on('click', onMapClick);
+//
+//     //add sidebar tool
+//     leafmap.pm.addControls({
+//     position: 'topleft',
+//     drawCircle: false,
+// });
+//
+// //output list of drawn wps
+// // sxolio12
+// const markedPath = []
+// leafmap.on('pm:drawstart', ({ workingLayer }) => {
+//   workingLayer.on('pm:vertexadded', e => {
+//       markedPath.push(e.latlng)
+//   });
+// });
+//
+// })
+//
+//
+// //PopUp function
+// var popup = L.popup();
+// function onMapClick(e) {
+//         popup
+//             .setLatLng(e.latlng)
+//             .setContent('Coordinates: '+e.latlng.toString())
+//             .openOn(leafmap)
+//
+//
+// }
+//
+// //search and mark function
+// const btn = document.querySelector('button')
+// btn.onclick =  function () {
+//     var lat = parseFloat(document.getElementById('lat').value)
+//     var long = parseFloat(document.getElementById('lng').value)
+//
+//     var marker = L.marker([lat,long], {
+// 	 	    draggable: true,
+// 	 	    title: "Resource location",
+// 	 	    alt: "Resource Location",
+// 	 	    riseOnHover: true
+//     }).addTo(leafmap)
+//      leafmap.flyTo([lat,long],15)
+// }
 
 
 /*GeoJSON input & draw layer
@@ -78,18 +230,18 @@ var wp7 = [37.932758, 23.654208].reverse()
 var wp8 = [37.821175, 23.748150].reverse()
 
 var planned_route = [
-            [wp1,wp2],
-            [wp3,wp4],
-            [wp5,wp6],
-            [wp7,wp8],
-        ]
+[wp1,wp2],
+[wp3,wp4],
+[wp5,wp6],
+[wp7,wp8],
+]
 
 var voyageJSON = [{
-    "type": "Feature",
-    'geometry': {
-        'type': 'MultiLineString',
-        "coordinates": planned_route
-    }}]
+"type": "Feature",
+'geometry': {
+'type': 'MultiLineString',
+"coordinates": planned_route
+}}]
 
 var routelayer = L.geoJSON().addTo(leafmap);
 routelayer.addData(voyageJSON);
@@ -120,21 +272,21 @@ var statesData =
 
 //set Colors & styles for areas of display
 function getColor(d){
-  return d<30 ? '#0033cc':
-         d<20 ? '#4d79ff':
-         d<10 ? '#ff9980':
-         d<5  ? '#ff471a':
-                '#cc2900';
+return d<30 ? '#0033cc':
+d<20 ? '#4d79ff':
+d<10 ? '#ff9980':
+d<5  ? '#ff471a':
+'#cc2900';
 }
 function style(feature) {
-    return {
-        fillColor: getColor(feature.properties.density),
-        weight: 2,
-        opacity: 1,
-        color: 'white',
-        dashArray: '3',
-        fillOpacity: 0.7
-    };
+return {
+fillColor: getColor(feature.properties.density),
+weight: 2,
+opacity: 1,
+color: 'white',
+dashArray: '3',
+fillOpacity: 0.7
+};
 }
 
 //Initialize leafmap object with geoJSON features
