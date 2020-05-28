@@ -28,7 +28,7 @@
 .searchbox {
   position: relative;
   background: #fff;
-  border-radius: 2px;
+  
   box-sizing: border-box;
   width: 360px;
   height: 48px;
@@ -51,8 +51,6 @@
 
 .searchbox-menubutton::before {
   content: '';
-  display: block;
-  background-image: url(image/ic_dehaze_black_24dp_2x.png);
   background-size: 100%;
   background-position: 0 0;
   height: 24px;

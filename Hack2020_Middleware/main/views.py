@@ -51,7 +51,7 @@ def register_vessel(request):
             vesselName=vName
         )
         newVessel.save()
-        return render(request, 'main/home_view.html',
+        return render(request, 'main/test.html',
                       {'message': 'Your vessel has been registered.', 'vessel': Vessel.objects.get(vesselName=vName)})
     else:
         return render(request, 'main/register_vessel.html')
@@ -70,7 +70,7 @@ def login_view(request):
     print(username,password)
     if user is not None:
         login(request, user)
-        return HttpResponseRedirect(reverse('home_view'))
+        return HttpResponseRedirect(reverse('test'))
     else:
         return render(request, "main/login_user.html", {"message": "Invalid credentials."})
 
@@ -80,7 +80,7 @@ def logOut(request):
     return render(request, 'main/index.html', {'message': 'You have been logged out.'})
 
 
-def home_view(request, *args):
+def test(request, *args):
     if not request.user.is_authenticated:
         return render(request, 'main/login_user.html', {'message': None})
     context = {
@@ -88,9 +88,9 @@ def home_view(request, *args):
     }
 
     if request.method=='post':
-        return render(request, 'main/home_view.html')
+        return render(request, 'main/test.html')
     else:
-        return render(request, 'main/home_view.html')
+        return render(request, 'main/test.html')
 
 
 def vessels_view(request):

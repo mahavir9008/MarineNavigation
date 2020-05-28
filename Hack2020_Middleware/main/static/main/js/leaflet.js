@@ -2,8 +2,9 @@ angular.module('myApp', ['ngMaterial']).config(function($interpolateProvider) {
   $interpolateProvider.startSymbol('{[{');
   $interpolateProvider.endSymbol('}]}');
 }).controller('AppCtrl', ['$scope', '$http', function($scope, $http) {
-
-  var mymap = L.map('mapid').setView([38,26.5], 13);
+  $scope.coordinates=[];
+  $scope.disabled=true;
+  var mymap = L.map('mapid').setView([38, 26.5], 13);
 
   L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
@@ -14,26 +15,45 @@ angular.module('myApp', ['ngMaterial']).config(function($interpolateProvider) {
     accessToken: 'pk.eyJ1IjoibWlrZXNvbG93IiwiYSI6ImNrYTExZzJkNDA3Zngzb3A2YWtrMXAwa2YifQ.gtV85gxNT53Gmw7Buy6Thw'
   }).addTo(mymap);
 
-  mymap.on('click', onMapClick);
-
-  var popup = L.popup();
-
-  function onMapClick(e) {
-    popup
+  mymap.on('dblclick', function(e) {
+    $scope.popup = L.popup();
+    $scope.popup
       .setLatLng(e.latlng)
       .setContent('Coordinates: ' + e.latlng.toString())
       .openOn(mymap)
+  });
+
+  mymap.on('click', function(e) {
+    $scope.coord=e.latlng.toString();
+    $scope.coordinat=$scope.coord.replace('LatLng(',"")
+    $scope.coordinates=$scope.coordinat.replace(')',"").split(',')
+    console.log($scope.coordinates)
+  });
+
+  $scope.openMenu = function() {
+    $scope.disabled=false;
   };
 
-  $scope.setCoord = function(lat, long) {
-    console.log(lat, long);
-    var marker = L.marker([lat, long], {
+
+  $scope.setclick = function() {
+    $scope.popup = null;
+
+    console.log('mesa');
+    $scope.popup = null;
+  };
+  $scope.setCoord = function() {
+    var marker=0;
+    marker = L.marker([$scope.coordinates[0], $scope.coordinates[1]], {
       draggable: true,
       title: "Resource location",
       alt: "Resource Location",
       riseOnHover: true
     }).addTo(mymap)
-    mymap.flyTo([lat, long], 15)
+    mymap.flyTo([$scope.coordinates[0], $scope.coordinates[1]], 15)
+  };
+
+  $scope.expand = function(){
+    //see code from work
   };
 
 }]);

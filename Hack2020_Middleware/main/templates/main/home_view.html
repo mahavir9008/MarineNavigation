@@ -48,10 +48,10 @@
             <button aria-label="Menu" id="searchbox-menubutton" class="searchbox-menubutton"><span class="material-icons">view_headline</span></button>
             </div>
           <div>
-            <input id="searchboxinput" type="text" style="position: relative;" />
+            <input id="searchboxinput" type="text" style="position: relative;" ng-model="coordinates" />
           </div>
           <div class="searchbox-searchbutton-container">
-            <button aria-label="search" ><span class="material-icons">search</span></button>
+            <button aria-label="search" ng-click="setclick(coordinates)"><span class="material-icons">search</span></button>
 
           </div>
         </div>
