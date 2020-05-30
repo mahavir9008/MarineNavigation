@@ -4,6 +4,12 @@ angular.module('myApp', ['ngMaterial']).config(function($interpolateProvider) {
 }).controller('AppCtrl', ['$scope', '$http', function($scope, $http) {
   $scope.coordinates=[];
   $scope.disabled=true;
+  $scope.rowNum = -1;
+
+  $scope.expandMenu = function(rowNum){
+    $scope.rowNum = ($scope.rowNum===rowNum ? -1 : rowNum);
+  };
+
   var mymap = L.map('mapid').setView([38, 26.5], 13);
 
   L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
@@ -27,20 +33,12 @@ angular.module('myApp', ['ngMaterial']).config(function($interpolateProvider) {
     $scope.coord=e.latlng.toString();
     $scope.coordinat=$scope.coord.replace('LatLng(',"")
     $scope.coordinates=$scope.coordinat.replace(')',"").split(',')
-    console.log($scope.coordinates)
   });
 
   $scope.openMenu = function() {
     $scope.disabled=false;
   };
 
-
-  $scope.setclick = function() {
-    $scope.popup = null;
-
-    console.log('mesa');
-    $scope.popup = null;
-  };
   $scope.setCoord = function() {
     var marker=0;
     marker = L.marker([$scope.coordinates[0], $scope.coordinates[1]], {
@@ -52,9 +50,6 @@ angular.module('myApp', ['ngMaterial']).config(function($interpolateProvider) {
     mymap.flyTo([$scope.coordinates[0], $scope.coordinates[1]], 15)
   };
 
-  $scope.expand = function(){
-    //see code from work
-  };
 
 }]);
 //

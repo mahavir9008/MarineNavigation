@@ -32,34 +32,28 @@
   {% endblock %}
 </head>
 
-<body class='d-flex flex-column h-100' ng-app="myApp">
+<body ng-app="myApp" style="background-image: url({% static 'main/images/background.jpg' %}); height:940px;">
   <div class='container' ng-controller="AppCtrl">
     {% block body %}
     <header>
       {% block header %}
-      <div class='row-2 justify-content-center '>
-        <div class='col-lg-auto justify-content-center'>
+
+        <div layout="row">
           <h1 align='center'><a href="{%url 'home_view' %}">Welcome</a></h1>
         </div>
-        <button class="btn" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-          <span class="material-icons">view_headline</span></button>
-        <div class="collapse" id="collapseExample">
-          <div class="card card-body">
+<div layout="row">
+        <button class="button-menu" type="button" ng-click="expandMenu(2)" row-number="{[{2}]}"><span class="material-icons">view_headline</span></button>
+        <div id="collapseExample" ng-class="{'addNotes-expand': {[{2}]}==rowNum}">
+          <div layout="row" ng-show="{[{2}]}==rowNum">
             <!-- <div class='row-1 justify-content-center'> -->
-            <nav class='navbar navbar-expand-md justify-content-center '>
-              <ul class='nav nav-pills nav-stacked'>
-                <li class='nav-item'>
-                  <a class='nav-link' href="{%url 'loginHome' %}">Log in</a>
-                </li>
-                <li class='nav-item'>
-                  <a class='nav-link' href="{%url 'register' %}">Registration</a>
-                </li>
-              </ul>
+            <nav>
+              <a class='nav-link' href="{%url 'loginHome' %}">Log in</a>
+              <a class='nav-link' href="{%url 'register' %}">Registration</a>
             </nav>
             <!-- </div> -->
           </div>
         </div>
-      </div>
+</div>
       {% endblock %}
     </header>
     <main>

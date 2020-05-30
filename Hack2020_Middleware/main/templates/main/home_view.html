@@ -1,73 +1,42 @@
 {% extends 'main/mainLayout.html' %} {%block header %}
-<div class='row-2 justify-content-center '>
-  <div class='col-lg-auto justify-content-center'>
-    <h1 align='center'><a href="{%url 'home_view' %}">Welcome</a></h1>
-  </div>
-  <button class="btn" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-    <span class="material-icons">view_headline</span></button>
-  <div class="collapse" id="collapseExample">
-    <div class="card card-body">
-      <!-- <div class='row-1 justify-content-center'> -->
-        <nav class='navbar navbar-expand-md justify-content-center '>
-          <ul class='nav nav-pills nav-stacked'>
-            <li class='nav-item'>
-              <a class='nav-link' href="{%url 'index' %}">Home</a>
-            </li>
-            <li class='nav-item'>
-              <a class='nav-link' href="{%url 'logOut' %}">Log out</a>
-            </li>
-            <li class='nav-item'>
-              <a class='nav-link' href="{%url 'register_vessel' %}">Register a vessel</a>
-            </li>
-            <<li>
-              <a class='nav-link' href="{% url 'vessels_view' %}">List your registered vessels</a>
-            </li>
-          </ul>
-        </nav>
-      <!-- </div> -->
+<div layout="row">
+  <h1 align='center'><a href="{%url 'home_view' %}">Welcome</a></h1>
+</div>
+<div layout="row">
+  <button class="button-menu" type="button" ng-click="expandMenu(2)" row-number="{[{2}]}"><span class="material-icons">view_headline</span></button>
+  <div id="collapseExample" ng-class="{'addNotes-expand': {[{2}]}==rowNum}">
+    <div layout="row" ng-show="{[{2}]}==rowNum">
+      <nav>
+        <a class='nav-link' href="{%url 'index' %}">Home</a>
+        <a class='nav-link' href="{%url 'logOut' %}">Log out</a>
+        <a class='nav-link' href="{%url 'register_vessel' %}">Register a vessel</a>
+        <a class='nav-link' href="{% url 'vessels_view' %}">List your registered vessels</a>
+      </nav>
     </div>
   </div>
 </div>
-<div class="main-container">
-  <div class="row">
-    <!-- <div class='col'>
-<a class='nav-link' href="{% url 'vessels_view' %}">List your registered vessels</a>
-</div>
-<div class='col'>
-<label for='lat'>Latitude:</label>
-<input type="text" ng-model="lat" id="lat" />
-<label for='long'>Longitude:</label>
-<input type="text" ng-model="lng" id="lng" />
-<button type='button' class='btn btn-primary' ng-click="setCoord(lat,lng)">Search</button>
-</div> -->
-
-    <div id="mapid" style="width:100%;height:700px;">
-      <div id="controlbox">
-        <div id="boxcontainer" class="searchbox searchbox-shadow">
-          <div class="searchbox-menu-container">
-            <button aria-label="Menu" id="searchbox-menubutton" class="searchbox-menubutton"><span class="material-icons">view_headline</span></button>
+<div class="">
+  <div id="mapid" style="width:100%;height:700px;">
+    <div id="controlbox">
+      <div id="boxcontainer" class="searchbox searchbox-shadow" style="width: 350px;">
+        <div class="searchbox-menu-container">
+          <button aria-label="Menu" id="searchbox-menubutton" class="button-menu" style="margin-left: 16px; margin-bottom: 21px;" ng-click="expandMenu(1)" row-number="{[{1}]}"><span class="material-icons">view_headline</span></button>
+          <div style="top: 151px;right: 0px;left: 69px;" ng-class="{'addNotes-expand': {[{1}]}==rowNum}">
+            <div class="slideDown" ng-show="{[{1}]}==rowNum" style="background-color:white; padding-right: 131px; margin-left: 0px; right: 69px;">
+              <button aria-label="Menu" id="searchbox-menubutton" style="margin-left: 16px; margin-bottom: 114px;" ng-click="expandMenu(-1)" row-number="{[{-1}]}"><span class="material-icons">view_headline</span></button>
             </div>
-          <div>
-            <input id="searchboxinput" type="text" style="position: relative;" ng-model="coordinates" />
-          </div>
-          <div class="searchbox-searchbutton-container">
-            <button aria-label="search" ng-click="setclick(coordinates)"><span class="material-icons">search</span></button>
-
           </div>
         </div>
-      </div>
-      <div class="panel">
-        <div class="panel-header">
-          <div class="panel-header-container">
-            <span class="panel-header-title"></span>
-            <button aria-label="Menu" id="panelbutton" class="panel-close-button"></button>
-          </div>
+        <div>
+          <input id="searchboxinput" type="text" style="position: relative;" ng-model="coordinates" />
+          <!--{[{coordinates.lat}]},{[{coordinates.lng}]} -->
         </div>
-        <div class="panel-content">
-
+        <div class="searchbox-searchbutton-container">
+          <button aria-label="search" class="button-menu" ng-click="setCoord()" style="margin-right: 21px; margin-top: 2px;"><span class="material-icons">search</span></button>
         </div>
       </div>
     </div>
   </div>
 </div>
+
 {% endblock %}
