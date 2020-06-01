@@ -39,12 +39,11 @@
       {% block header %}
 
         <div layout="row">
-          <h1 align='center'><a href="{%url 'home_view' %}">Welcome</a></h1>
+          <h1 align='center'><a href="{%url 'home_view' %}"><img src="({% static 'main/images/seaTrip.png' %});" style="width:300px; height:300px;"/></a></h1>
         </div>
 <div layout="row">
-        <button class="button-menu" type="button" ng-click="expandMenu(2)" row-number="{[{2}]}"><span class="material-icons">view_headline</span></button>
-        <div id="collapseExample" ng-class="{'addNotes-expand': {[{2}]}==rowNum}">
-          <div layout="row" ng-show="{[{2}]}==rowNum">
+
+          <div layout="row" style="margin-left: 883px;">
             <!-- <div class='row-1 justify-content-center'> -->
             <nav>
               <a class='nav-link' href="{%url 'loginHome' %}">Log in</a>
@@ -54,6 +53,7 @@
           </div>
         </div>
 </div>
+<div layout="row"></div>
       {% endblock %}
     </header>
     <main>

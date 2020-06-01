@@ -19,6 +19,11 @@ body {
     height: 40em;
 }
 
+a{
+  font-style: oblique;
+  color: white;
+  text-decoration: none;
+}
 
 .input {
   position: absolute;
@@ -59,7 +64,7 @@ body {
 
     height:150px;
     width:219px;
-    transition:height 0.15s ease;
+    transition: 0.15s ease;
     position:relative;
 
 }

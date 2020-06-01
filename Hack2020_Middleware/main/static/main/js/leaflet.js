@@ -5,12 +5,14 @@ angular.module('myApp', ['ngMaterial']).config(function($interpolateProvider) {
   $scope.coordinates=[];
   $scope.disabled=true;
   $scope.rowNum = -1;
+  $scope.coords = [];
 
   $scope.expandMenu = function(rowNum){
+    console.log(rowNum);
     $scope.rowNum = ($scope.rowNum===rowNum ? -1 : rowNum);
   };
 
-  var mymap = L.map('mapid').setView([38, 26.5], 13);
+  var mymap = L.map('mapid').setView([38,26.5],8);
 
   L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
@@ -50,6 +52,9 @@ angular.module('myApp', ['ngMaterial']).config(function($interpolateProvider) {
     mymap.flyTo([$scope.coordinates[0], $scope.coordinates[1]], 15)
   };
 
+  $scope.crtRoot = function(){
+    console.log($scope.coords);
+  };
 
 }]);
 //
