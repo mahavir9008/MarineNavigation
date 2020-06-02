@@ -2,17 +2,17 @@ angular.module('myApp', ['ngMaterial']).config(function($interpolateProvider) {
   $interpolateProvider.startSymbol('{[{');
   $interpolateProvider.endSymbol('}]}');
 }).controller('AppCtrl', ['$scope', '$http', function($scope, $http) {
-  $scope.coordinates=[];
-  $scope.disabled=true;
+  $scope.coordinates = [];
+  $scope.disabled = true;
   $scope.rowNum = -1;
   $scope.coords = [];
 
+
   $scope.expandMenu = function(rowNum){
-    console.log(rowNum);
     $scope.rowNum = ($scope.rowNum===rowNum ? -1 : rowNum);
   };
 
-  var mymap = L.map('mapid').setView([38,26.5],8);
+  var mymap = L.map('mapid').setView([37.983810, 23.727539],7);
 
   L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
@@ -37,10 +37,6 @@ angular.module('myApp', ['ngMaterial']).config(function($interpolateProvider) {
     $scope.coordinates=$scope.coordinat.replace(')',"").split(',')
   });
 
-  $scope.openMenu = function() {
-    $scope.disabled=false;
-  };
-
   $scope.setCoord = function() {
     var marker=0;
     marker = L.marker([$scope.coordinates[0], $scope.coordinates[1]], {
@@ -55,6 +51,14 @@ angular.module('myApp', ['ngMaterial']).config(function($interpolateProvider) {
   $scope.crtRoot = function(){
     console.log($scope.coords);
   };
+
+  $http({
+    method:"POST",
+    url:'weatherFinder/',
+    data:{lat:$scope.coordinates[0], lng:$scope.coordinates[1]}
+  }).then(function(response){
+    console.log(response);
+  });
 
 }]);
 //

@@ -17,14 +17,14 @@
   <div id="collapseExample" ng-class="{'addNotes-expand': {[{3}]}==rowNum}">
     <div layout="row" ng-show="{[{3}]}==rowNum">
       <div layout="column">
-        <button aria-label="Menu" id="searchbox-menubutton" class="button-menu" style="margin-left: 1077px;" ng-click="expandMenu(-1)" row-number="{[{-1}]}"><img src="/static/main/images/close.png" alt=""></button>
+        <button aria-label="Menu" id="searchbox-menubutton" class="button-menu" style="margin-left: 1110px;" ng-click="expandMenu(-1)" row-number="{[{-1}]}"><img src="/static/main/images/close.png" alt=""></button>
         <form style="margin-left: 775px;">
           <label style="color: white;">Coordinates to Start</label>
           <input type="text" placeholder="Enter coordinates" style="margin-left:9px;" ng-model="coords.start"><br/>
           <label style="color: white;">Coordinates to Finish</label>
           <input type="text" placeholder="Enter coordinates" ng-model="coords.finish">
         </form>
-        <button aria-label="search" class="button-menu" ng-click="crtRoot()" style="margin-left: 1077px;"><img src="/static/main/images/directions_boat.png" alt=""></button>
+        <button aria-label="search" class="button-menu" ng-click="crtRoot()" style="margin-left: 1110px;"><img src="/static/main/images/directions_boat.png" alt=""></button>
 
       </div>
     </div>
@@ -46,7 +46,7 @@
           </div>
         </div>
         <div>
-          <input id="searchboxinput" type="text" style="position: relative;" ng-model="coordinates" />
+          <input id="searchboxinput" type="text" style="position: relative;" ng-model="coordinates" placeholder="Enter coordinates"/>
         </div>
         <div class="searchbox-searchbutton-container">
           <button aria-label="search" class="button-menu" ng-click="setCoord()" style="margin-right: 37px; margin-top: 2px;"><span class="material-icons">search</span></button>

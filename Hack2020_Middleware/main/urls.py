@@ -1,4 +1,5 @@
 from django.urls import path, re_path
+from django.conf.urls import  url
 from . import views
 
 
@@ -13,7 +14,7 @@ urlpatterns = [
     path('logout', views.logOut, name='logOut'),
     path('vessels', views.vessels_view, name='vessels_view'),
     path('<int:vessel_id>/details', views.vessel_details, name='vessel_details'),
-    path('home/weatherFinder', views.weatherFinder, name='weatherFinder'),
+    re_path(r'^weatherFinder/$', views.weatherFinder, name='weatherFinder'),
     #path('home/<int:lat>/<int:lng>', views.psnFinder, name='psnFinder'),
    # path('voyage_view', views.voyage_view, name='voyage_view'),
 

@@ -10,6 +10,7 @@ from django.utils.datastructures import MultiValueDictKeyError
 # from django.views.generic import FormView
 # from main.forms import MapForm
 import requests
+import json
 
 def index(request):
     return render(request, 'main/index.html')
@@ -109,7 +110,7 @@ def vessel_details(request, vessel_id):
     pass
 
 def weatherFinder(request):
-
+    print(request)
     type = 'windSpeed'
     if request.method=="POST":
         lat = (request.POST.get('lat'))
@@ -117,13 +118,13 @@ def weatherFinder(request):
 
         json_data = weatherAPI(lat,lng,type)
 
-        return json_data
+        return HttpResponse(json_data)
     else:
         pass
 
 
 
-def weatherAPI(lat,lng, type):
+def weatherAPI(lat,lng):
 
         response = requests.get('https://api.stormglass.io/v2/weather/point',
         params={
