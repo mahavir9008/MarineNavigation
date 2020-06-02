@@ -8,6 +8,29 @@ angular.module('myApp', ['ngMaterial']).config(function($interpolateProvider) {
   $scope.coords = [];
 
 
+//   var options = {
+//     // Required: API key
+//     key: 'fIYFbLUNUy18W6swfBlYcEJJ65QDhEhh', // REPLACE WITH YOUR KEY !!!
+//
+//     // Put additional console output
+//     verbose: true,
+//
+//     // Optional: Initial state of the map
+//     lat: 50.4,
+//     lon: 14.3,
+//     zoom: 5,
+// };
+//
+// windyInit(options, windyAPI => {
+//     // windyAPI is ready, and contain 'map', 'store',
+//     // 'picker' and other usefull stuff
+//
+//     var { map } = windyAPI;
+//     // .map is instance of Leaflet map
+//
+//
+// });
+
   $scope.expandMenu = function(rowNum){
     $scope.rowNum = ($scope.rowNum===rowNum ? -1 : rowNum);
   };
@@ -35,6 +58,7 @@ angular.module('myApp', ['ngMaterial']).config(function($interpolateProvider) {
     $scope.coord=e.latlng.toString();
     $scope.coordinat=$scope.coord.replace('LatLng(',"")
     $scope.coordinates=$scope.coordinat.replace(')',"").split(',')
+
   });
 
   $scope.setCoord = function() {
@@ -51,12 +75,23 @@ angular.module('myApp', ['ngMaterial']).config(function($interpolateProvider) {
   $scope.crtRoot = function(){
     console.log($scope.coords);
   };
+ $scope.weatherFind = function(token){
+   console.log(token);
+   $http({
+     method:"POST",
+     url:"weatherFinder",
+     data: [$scope.coordinates[0], $scope.coordinates[1]]
+   }).then(function(response){
+     console.log(response);
+   });
+ };
+
 
   $http({
     method:"POST",
-    url:'weatherFinder/',
-    data:{lat:$scope.coordinates[0], lng:$scope.coordinates[1]}
-  }).then(function(response){
+    url:'https://api.stormglass.io/v2/weather/point?lat=${'+$scope.coordinates[0]+'}&lng=${'+$scope.coordinates[1]+'}&params=${windSpeed}',
+
+    }).then(function(response){
     console.log(response);
   });
 

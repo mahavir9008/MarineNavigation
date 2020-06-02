@@ -37,7 +37,7 @@
     {% block body %}
     <header>
       {% block header %}
-
+      {% csrf_token %}
         <div layout="row">
           <h1 align='center'><a href="{%url 'home_view' %}"><img src="({% static 'main/images/seaTrip.png' %});" style="width:300px; height:300px;"/></a></h1>
         </div>
@@ -76,5 +76,11 @@
 
 </body>
 <script src={%  static 'main/js/leaflet.js' %}></script>
+<!-- <script>
+  $('body').bind("httpSend", function(elm, xhr, s){
+     xhr.setRequestHeader('X-CSRF-Token', getCSRFTokenValue());
+  })
+</script> -->
+
 
 </html>

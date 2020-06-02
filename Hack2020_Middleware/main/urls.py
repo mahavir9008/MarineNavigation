@@ -14,7 +14,7 @@ urlpatterns = [
     path('logout', views.logOut, name='logOut'),
     path('vessels', views.vessels_view, name='vessels_view'),
     path('<int:vessel_id>/details', views.vessel_details, name='vessel_details'),
-    re_path(r'^weatherFinder/$', views.weatherFinder, name='weatherFinder'),
+    url(r'^weatherFinder$', views.weatherFinder, name='weatherFinder'),
     #path('home/<int:lat>/<int:lng>', views.psnFinder, name='psnFinder'),
    # path('voyage_view', views.voyage_view, name='voyage_view'),
 

@@ -118,7 +118,7 @@ def weatherFinder(request):
 
         json_data = weatherAPI(lat,lng,type)
 
-        return HttpResponse(json_data)
+        return JSONResponse(json_data)
     else:
         pass
 
