@@ -1,15 +1,16 @@
 {% extends 'main/mainLayout.html' %} {%block header %}
+{% load static %}
 <div layout="row">
-  <h1 align='center'><a href="{%url 'home_view' %}">Welcome</a></h1>
+  <h1 align='center'><img src="{% static 'main/images/seaTrip.png' %}" style="width:6%; margin-top: -19px;" /></h1>
 </div>
 <div layout="row">
   <button class="button-menu" type="button" ng-click="expandMenu(2)" row-number="{[{2}]}"><img src="/static/main/images/baseline_view_headline_white_24dp.png" alt=""></button>
   <div id="collapseExample" ng-class="{'addNotes-expand': {[{2}]}==rowNum}">
-    <div layout="row" ng-show="{[{2}]}==rowNum">
-      <div layout="column"><a class='nav-link' href="{%url 'index' %}">Home</a></div>
-      <div layout="column"><a class='nav-link' href="{%url 'logOut' %}">Log out</a></div>
-      <div layout="column"><a class='nav-link' href="{%url 'register_vessel' %}">Register a vessel</a></div>
-      <div layout="column"><a class='nav-link' href="{% url 'vessels_view' %}">List your registered vessels</a></div>
+    <div layout="column" ng-show="{[{2}]}==rowNum" flex='50'>
+      <div layout="column" flex='30'><a class='nav-link' href="{%url 'index' %}">Home</a></div>
+      <div layout="column" flex='30'><a class='nav-link' href="{%url 'logOut' %}">Log out</a></div>
+      <div layout="column" flex='30'><a class='nav-link' href="{%url 'register_vessel' %}">Register a vessel</a></div>
+      <div layout="column" flex='30'><a class='nav-link' href="{% url 'vessels_view' %}">List your registered vessels</a></div>
     </div>
   </div>
 </div>

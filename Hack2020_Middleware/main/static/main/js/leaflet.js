@@ -7,30 +7,6 @@ angular.module('myApp', ['ngMaterial']).config(function($interpolateProvider) {
   $scope.rowNum = -1;
   $scope.coords = [];
 
-
-//   var options = {
-//     // Required: API key
-//     key: 'fIYFbLUNUy18W6swfBlYcEJJ65QDhEhh', // REPLACE WITH YOUR KEY !!!
-//
-//     // Put additional console output
-//     verbose: true,
-//
-//     // Optional: Initial state of the map
-//     lat: 50.4,
-//     lon: 14.3,
-//     zoom: 5,
-// };
-//
-// windyInit(options, windyAPI => {
-//     // windyAPI is ready, and contain 'map', 'store',
-//     // 'picker' and other usefull stuff
-//
-//     var { map } = windyAPI;
-//     // .map is instance of Leaflet map
-//
-//
-// });
-
   $scope.expandMenu = function(rowNum){
     $scope.rowNum = ($scope.rowNum===rowNum ? -1 : rowNum);
   };
@@ -54,12 +30,13 @@ angular.module('myApp', ['ngMaterial']).config(function($interpolateProvider) {
       .openOn(mymap)
   });
 
-  mymap.on('click', function(e) {
-    $scope.coord=e.latlng.toString();
-    $scope.coordinat=$scope.coord.replace('LatLng(',"")
-    $scope.coordinates=$scope.coordinat.replace(')',"").split(',')
-
-  });
+  if($scope.coordinates.length === 0){
+    mymap.on('click', function(e) {
+      $scope.coord=e.latlng.toString();
+      $scope.coordinat=$scope.coord.replace('LatLng(',"")
+      $scope.coordinates=$scope.coordinat.replace(')',"").split(',')
+    });
+  }
 
   $scope.setCoord = function() {
     var marker=0;
@@ -75,25 +52,37 @@ angular.module('myApp', ['ngMaterial']).config(function($interpolateProvider) {
   $scope.crtRoot = function(){
     console.log($scope.coords);
   };
- $scope.weatherFind = function(token){
-   console.log(token);
-   $http({
-     method:"POST",
-     url:"weatherFinder",
-     data: [$scope.coordinates[0], $scope.coordinates[1]]
-   }).then(function(response){
-     console.log(response);
-   });
+
+ $scope.weatherFind = function(){
+   var date = new Date();
+   var timezoneOffset = date.getMinutes() + date.getTimezoneOffset();
+   var timestamp = date.getTime() + timezoneOffset * 1000;
+   var correctDate = new Date(timestamp);
+   correctDate.setUTCHours(0, 0, 0, 0);
+   var lat = $scope.coordinates[0];
+   var lng = $scope.coordinates[1];
+   var params = 'windSpeed,currentDirection,currentSpeed,swellDirection,swellHeight,swellPeriod,waterTemperature,waveDirection,waveHeight,wavePeriod,windDirection,gust';
+
+   fetch(`https://api.stormglass.io/v2/weather/point?lat=${lat}&lng=${lng}&params=${params}`, {
+     headers: {
+       'Authorization': '45292256-a4fb-11ea-ac19-0242ac130002-4529231e-a4fb-11ea-ac19-0242ac130002'
+     }}).then((response) => response.json()).then((jsonData) => {
+       console.log(correctDate.toISOString());
+       angular.forEach(jsonData.hours, function(val, idx){
+         if(moment(val.time).toISOString() === correctDate.toISOString()){
+           $scope.popup = L.popup();
+           $scope.popup
+             .setLatLng($scope.coordinates)
+             .setContent('<ul><li>Current Direction: '+ val.currentDirection.meto +'</li><li>Current Speed' + val.currentSpeed.meto + '</li><li>Gust' + val.gust.noaa + '</li></ul>' )
+             .openOn(mymap)
+           console.log($scope.popup);
+         }
+
+         $scope.coordinates =[];
+       });
+      });
+
  };
-
-
-  $http({
-    method:"POST",
-    url:'https://api.stormglass.io/v2/weather/point?lat=${'+$scope.coordinates[0]+'}&lng=${'+$scope.coordinates[1]+'}&params=${windSpeed}',
-
-    }).then(function(response){
-    console.log(response);
-  });
 
 }]);
 //
