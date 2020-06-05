@@ -32,14 +32,14 @@
   {% endblock %}
 </head>
 
-<body ng-app="myApp" style="background-image: url({% static 'main/images/background.jpg' %}); height:940px;">
+<body ng-app="myApp" style="background-image: url({% static 'main/images/background.jpg' %}); background-position: center; height:940px; ">
   <div class='container' ng-controller="AppCtrl">
     {% block body %}
     <header>
       {% block header %}
       {% csrf_token %}
         <div layout="row">
-          <h1 align='center'><a href="{%url 'home_view' %}"><img src="{% static 'main/images/seaTrip.png' %}" style="width:25%;" /></a></h1>
+          <h1 align='center'><a href="{%url 'home_view' %}"><img src="{% static 'main/images/seaTrip.png' %}" style="width:18%;" /></a></h1>
         </div>
 <!-- <div layout="row">
 
