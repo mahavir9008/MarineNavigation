@@ -10,8 +10,9 @@ data.drop(data.columns[0], axis=1, inplace=True)
 # Preview the first 5 lines of the loaded data
 numpy_matrix = data.as_matrix()
 
-ROW = 202
-COL = 229
+
+ROW = rows = len(numpy_matrix)
+COL = columns = len(numpy_matrix[0])
 
 
 # To store matrix cell cordinates
@@ -27,7 +28,7 @@ class queueNode:
     def __init__(self, pt: Point, dist: int):
         self.pt = pt  # The cordinates of the cell
         self.dist = dist  # Cell's distance from the source
-        print("Transverse %s is %s" % (pt.x, pt.y))
+       # print("Transverse %s is %s" % (pt.x, pt.y))
 
 
 # Check whether given cell(row,col)
@@ -71,7 +72,9 @@ def BFS(mat, src: Point, dest: Point):
         # we are done
         pt = curr.pt
         if pt.x == dest.x and pt.y == dest.y:
+
             return curr.dist
+
 
             # Otherwise enqueue its adjacent cells
         for i in range(4):
@@ -82,17 +85,34 @@ def BFS(mat, src: Point, dest: Point):
             # and not visited yet, enqueue it.
             if (isValid(row, col) and mat[row][col] == 255 and not visited[row][col]):
                 visited[row][col] = True
+                if catch_index_error(curr.dist) is None:
+                    mylist.insert(curr.dist,Point(row,col))
+
                 Adjcell = queueNode(Point(row, col), curr.dist + 1)
                 q.append(Adjcell)
+
+
                 # Return -1 if destination cannot be reached
     return -1
 
+def catch_index_error(index):
+  try:
+     return mylist[index]
+  except IndexError:
+    return None
 
+
+
+mylist = []
 source = Point(0, 1)
-dest = Point(201, 228)
+dest = Point(ROW-1, COL-1)
 dist = BFS(numpy_matrix, source, dest)
+print("Shortest Path is", len(mylist))
+for x1 in range(len(mylist)):
+    print("Coordinates %s is %s" % (mylist[x1].x, mylist[x1].y))
 
 if dist != -1:
     print("Shortest Path is", dist)
 else:
     print("Shortest Path doesn't exist")
+
