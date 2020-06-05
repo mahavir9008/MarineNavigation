@@ -1,12 +1,17 @@
 # Sea trip - Your Guide On The Water
-Sea trip is one of the best sea app which lets you find your road on the sea. It provides one of the most accurate and detailed route for boating and sailing. All you have to just enter the cordinates and enjoy seamless sea joueny.
-#Feature
-- The App provides nautical charts for cruising, fishing, sailing, diving and all the other activities on the water.
-- Dock-to-dock Autorouting1 creates a suggested route based on chart data and navigation aids
+SeaTrip is a marine navigation application currently aimed towards serving the needs of small boat owners. 
+SeaTrip lets you find your ideal route at sea, in a user friendly, efficient and safe way. It utilizes free satelite imagery data to map shallow water areas, gather information about weather patterns affecting your route and offers a range of features such as water quality information, marine habitat tracking for eco friendly anchoring locations and more. All you have to just enter the cordinates and enjoy seamless sea journey.
+
+#In progress features
+- The App provides nautical charts for short-range cruising, fishing, sailing, diving and all the other activities on the water.
+- Dock-to-dock Autorouting creates a suggested route based on chart data and navigation aids
 - Advanced Map Options
 - Weather & Tides 
+- Water quality information
+- Marine habitat mapping
+- Shallow water display
 
-# Other Features
+# Future Features
 - Tracks: Record your travel and snap geotagged photos.
 - Routes: Create and edit routes. Then see length, time and fuel consumption.
 - Distance: Measure distance between points.
